@@ -31,8 +31,20 @@ const generateSixDeck = function () {
   return sixDeck;
 };
 
+// Durstenfeld shuffle algorithm
+const shuffleDeck = function (deck) {
+  for (let i = deck.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [deck[i], deck[j]] = [deck[j], deck[i]];
+  }
+};
+
 const sixDeck = generateSixDeck();
 
 console.log(sixDeck);
 
-// TODO: shuffle cards
+shuffleDeck(sixDeck);
+
+console.log(sixDeck);
+
+// TODO: initialize starting variables
