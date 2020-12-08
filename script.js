@@ -41,10 +41,23 @@ const shuffleDeck = function (deck) {
 
 const sixDeck = generateSixDeck();
 
-console.log(sixDeck);
-
 shuffleDeck(sixDeck);
 
-console.log(sixDeck);
+let userFunds = 1_000;
 
-// TODO: initialize starting variables
+let option;
+do {
+  option = prompt(`User funds: ${userFunds}\n1. Place bet\n2. Cash out`);
+  switch (option) {
+    case '1':
+      // TODO: allow user to place bet
+
+      // TODO: start the game
+      break;
+    case '2':
+      console.log(`You left the casino with ${userFunds}.`);
+      break;
+    default:
+      console.log('Invalid option!');
+  }
+} while (option !== '2');
