@@ -39,6 +39,10 @@ const shuffleDeck = function (deck) {
   }
 };
 
+const getUserFunds = function () {
+  return new Intl.NumberFormat('en-US').format(userFunds);
+};
+
 const sixDeck = generateSixDeck();
 
 shuffleDeck(sixDeck);
@@ -47,7 +51,7 @@ let userFunds = 1_000;
 
 let option;
 do {
-  option = prompt(`User funds: ${userFunds}\n1. Place bet\n2. Cash out`);
+  option = prompt(`User funds: $${getUserFunds()}\n1. Place bet\n2. Cash out`);
   switch (option) {
     case '1':
       // TODO: allow user to place bet
@@ -55,7 +59,7 @@ do {
       // TODO: start the game
       break;
     case '2':
-      console.log(`You left the casino with ${userFunds}.`);
+      console.log(`You left the casino with $${getUserFunds()}.`);
       break;
     default:
       console.log('Invalid option!');
