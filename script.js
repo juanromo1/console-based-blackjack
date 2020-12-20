@@ -51,15 +51,35 @@ let funds = 1_000;
 
 let option;
 do {
-  option = prompt(`User funds: $${getFunds()}\n1. Place bet\n2. Cash out`);
+  if (funds === 0) {
+    alert('You have no remaining funds!');
+    break;
+  }
+
+  option = prompt(`Funds: $${getFunds()}\n1. Place bet\n2. Cash out`);
   switch (option) {
     case '1':
-      // TODO: allow user to place bet
+      let bet = 0;
+      do {
+        bet = Number(prompt('Place your bet (-1 to exit): '));
+
+        if (bet === -1) {
+          break;
+        } else if (bet < 0) {
+          alert("Bets can't be negative!");
+        } else if (bet === 0) {
+          alert("Bet can't be 0!");
+        } else {
+          funds -= bet;
+        }
+      } while (bet <= 0 && bet > funds);
+
+      console.log(`You placed a ${bet} dollar bet.`);
 
       // TODO: start the game
       break;
     case '2':
-      console.log(`You left the casino with $${getFunds()}.`);
+      console.log(`You left the casino with ${getFunds()} dollars.`);
       break;
     default:
       console.log('Invalid option!');
