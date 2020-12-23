@@ -63,7 +63,9 @@ do {
       do {
         bet = Number(prompt('Place your bet (-1 to exit): '));
 
-        if (bet === -1) {
+        if (isNaN(bet)) {
+          alert('Bet must be a number!');
+        } else if (bet === -1) {
           break;
         } else if (bet < 0) {
           alert("Bets can't be negative!");
@@ -73,7 +75,7 @@ do {
           funds -= bet;
           break;
         }
-      } while (bet <= 0 || bet > funds);
+      } while (isNaN(bet) || bet <= 0 || bet > funds);
 
       console.log(`You placed a ${bet} dollar bet.`);
 
