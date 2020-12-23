@@ -61,7 +61,9 @@ do {
     case '1':
       let bet = 0;
       do {
-        bet = Number(prompt('Place your bet (-1 to exit): '));
+        bet = Number(
+          prompt(`Funds: $${getFunds()}\nPlace your bet (-1 to exit): `)
+        );
 
         if (isNaN(bet)) {
           alert('Bet must be a number!');
