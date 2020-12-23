@@ -71,8 +71,9 @@ do {
           alert("Bet can't be 0!");
         } else {
           funds -= bet;
+          break;
         }
-      } while (bet <= 0 && bet > funds);
+      } while (bet <= 0 || bet > funds);
 
       console.log(`You placed a ${bet} dollar bet.`);
 
