@@ -71,6 +71,8 @@ do {
           alert("Bet can't be negative!");
         } else if (bet === 0) {
           alert("Bet can't be 0!");
+        } else if (bet > funds) {
+          alert("Bet can't exceed available funds!");
         } else {
           funds -= bet;
           break;
