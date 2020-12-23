@@ -68,21 +68,20 @@ do {
         } else if (bet === -1) {
           break;
         } else if (bet < 0) {
-          alert("Bets can't be negative!");
+          alert("Bet can't be negative!");
         } else if (bet === 0) {
           alert("Bet can't be 0!");
         } else {
           funds -= bet;
           break;
         }
+        console.log(`You placed a $${bet} bet.`);
       } while (isNaN(bet) || bet <= 0 || bet > funds);
-
-      console.log(`You placed a ${bet} dollar bet.`);
 
       // TODO: start the game
       break;
     case '2':
-      console.log(`You left the casino with ${getFunds()} dollars.`);
+      console.log(`You left the casino with $${getFunds()}.`);
       break;
     default:
       console.log('Invalid option!');
