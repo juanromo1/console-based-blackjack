@@ -39,8 +39,8 @@ const shuffleDeck = function (deck) {
   }
 };
 
-const getFunds = function () {
-  return new Intl.NumberFormat('en-US').format(funds);
+const usdNumberFormatter = function (number) {
+  return `$${new Intl.NumberFormat('en-US').format(number)}`;
 };
 
 const sixDeck = generateSixDeck();
@@ -56,13 +56,17 @@ do {
     break;
   }
 
-  option = prompt(`Funds: $${getFunds()}\n1. Place bet\n2. Cash out`);
+  option = prompt(
+    `Funds: ${usdNumberFormatter(funds)}\n1. Place bet\n2. Cash out`
+  );
   switch (option) {
     case '1':
       let bet = 0;
       do {
         bet = Number(
-          prompt(`Funds: $${getFunds()}\nPlace your bet (-1 to exit): `)
+          prompt(
+            `Funds: ${usdNumberFormatter(funds)}\nPlace your bet (-1 to exit): `
+          )
         );
 
         if (isNaN(bet)) {
@@ -76,16 +80,17 @@ do {
         } else if (bet > funds) {
           alert("Bet can't exceed available funds!");
         } else {
+          console.log(`You placed a ${usdNumberFormatter(bet)} bet.`);
           funds -= bet;
           break;
         }
-        console.log(`You placed a $${bet} bet.`);
+        console.log(`You placed a ${usdNumberFormatter(bet)} bet.`);
       } while (isNaN(bet) || bet <= 0 || bet > funds);
 
       // TODO: start the game
       break;
     case '2':
-      console.log(`You left the casino with $${getFunds()}.`);
+      console.log(`You left the casino with ${usdNumberFormatter(funds)}.`);
       break;
     default:
       console.log('Invalid option!');
