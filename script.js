@@ -40,29 +40,27 @@ const shuffleDeck = function (deck) {
 };
 
 const startGame = function (bet) {
-  let userScore = 0;
-  const userCards = [];
-  let dealerScore = 0;
-  const dealerCards = [];
+  let userHandValue = 0;
+  const userHand = [];
+  let dealerHandValue = 0;
+  const dealerHand = [];
 
   // Deal cards
-  userCards.push(sixDeck.pop());
-  dealerCards.push(sixDeck.pop());
-  userCards.push(sixDeck.pop());
-  dealerCards.push(sixDeck.pop());
+  userHand.push(sixDeck.pop());
+  dealerHand.push(sixDeck.pop());
+  userHand.push(sixDeck.pop());
+  dealerHand.push(sixDeck.pop());
 
   console.log(
-    `User cards: ${userCards[0].value} of ${userCards[0].suit} and ${
-      userCards[1].value
-    } of ${userCards[1].suit}\nUser hand value: ${calculateHandValue(
-      userCards
-    )}`
+    `User cards: ${userHand[0].value} of ${userHand[0].suit} and ${
+      userHand[1].value
+    } of ${userHand[1].suit}\nUser hand value: ${calculateHandValue(userHand)}`
   );
   console.log(
-    `Dealer cards: ${dealerCards[0].value} of ${dealerCards[0].suit} and ${
-      dealerCards[1].value
-    } of ${dealerCards[1].suit}\nDealer hand value: ${calculateHandValue(
-      dealerCards
+    `Dealer cards: ${dealerHand[0].value} of ${dealerHand[0].suit} and ${
+      dealerHand[1].value
+    } of ${dealerHand[1].suit}\nDealer hand value: ${calculateHandValue(
+      dealerHand
     )}`
   );
 
