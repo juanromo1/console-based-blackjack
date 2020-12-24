@@ -45,16 +45,25 @@ const startGame = function (bet) {
   let dealerScore = 0;
   const dealerCards = [];
 
+  // Deal cards
   userCards.push(sixDeck.pop());
   dealerCards.push(sixDeck.pop());
   userCards.push(sixDeck.pop());
   dealerCards.push(sixDeck.pop());
 
   console.log(
-    `User cards: ${userCards[0].value} of ${userCards[0].suit} and ${userCards[1].value} of ${userCards[1].suit}`
+    `User cards: ${userCards[0].value} of ${userCards[0].suit} and ${
+      userCards[1].value
+    } of ${userCards[1].suit}\nUser hand value: ${calculateHandValue(
+      userCards
+    )}`
   );
   console.log(
-    `Dealer cards: ${dealerCards[0].value} of ${dealerCards[0].suit} and ${dealerCards[1].value} of ${dealerCards[1].suit}`
+    `Dealer cards: ${dealerCards[0].value} of ${dealerCards[0].suit} and ${
+      dealerCards[1].value
+    } of ${dealerCards[1].suit}\nDealer hand value: ${calculateHandValue(
+      dealerCards
+    )}`
   );
 
   // TODO calculate user and dealer scores and respond accordingly
@@ -62,6 +71,36 @@ const startGame = function (bet) {
   // TODO user game options hit/hold
 
   return -bet;
+};
+
+// TODO take into account hard/soft hands when a hand is a bust and contains aces
+const calculateHandValue = function (hand) {
+  let handValue = 0;
+  for (let i = 0; i < hand.length; i++) {
+    const cardValue = hand[i].value;
+    switch (cardValue) {
+      case '2':
+      case '3':
+      case '4':
+      case '5':
+      case '6':
+      case '7':
+      case '8':
+      case '9':
+      case '10':
+        handValue += Number(cardValue);
+        break;
+      case 'Jack':
+      case 'Queen':
+      case 'King':
+        handValue += 10;
+        break;
+      case 'Ace':
+        handValue + 11 > 21 ? (handValue += 1) : (handValue += 11);
+        break;
+    }
+  }
+  return handValue;
 };
 
 const usdNumberFormatter = function (number) {
@@ -111,8 +150,6 @@ do {
         }
         console.log(`You placed a ${usdNumberFormatter(bet)} bet.`);
       } while (isNaN(bet) || bet <= 0 || bet > funds);
-
-      // TODO: start the game
       break;
     case '2':
       console.log(`You left the casino with ${usdNumberFormatter(funds)}.`);
