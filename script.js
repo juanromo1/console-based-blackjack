@@ -93,6 +93,6 @@ do {
       console.log(`You left the casino with ${usdNumberFormatter(funds)}.`);
       break;
     default:
-      console.log('Invalid option!');
+      alert('Invalid option!');
   }
 } while (option !== '2');
