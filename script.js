@@ -39,6 +39,31 @@ const shuffleDeck = function (deck) {
   }
 };
 
+const startGame = function (bet) {
+  let userScore = 0;
+  const userCards = [];
+  let dealerScore = 0;
+  const dealerCards = [];
+
+  userCards.push(sixDeck.pop());
+  dealerCards.push(sixDeck.pop());
+  userCards.push(sixDeck.pop());
+  dealerCards.push(sixDeck.pop());
+
+  console.log(
+    `User cards: ${userCards[0].value} of ${userCards[0].suit} and ${userCards[1].value} of ${userCards[1].suit}`
+  );
+  console.log(
+    `Dealer cards: ${dealerCards[0].value} of ${dealerCards[0].suit} and ${dealerCards[1].value} of ${dealerCards[1].suit}`
+  );
+
+  // TODO calculate user and dealer scores and respond accordingly
+
+  // TODO user game options hit/hold
+
+  return -bet;
+};
+
 const usdNumberFormatter = function (number) {
   return `$${new Intl.NumberFormat('en-US').format(number)}`;
 };
@@ -81,7 +106,7 @@ do {
           alert("Bet can't exceed available funds!");
         } else {
           console.log(`You placed a ${usdNumberFormatter(bet)} bet.`);
-          funds -= bet;
+          funds += startGame(bet);
           break;
         }
         console.log(`You placed a ${usdNumberFormatter(bet)} bet.`);
