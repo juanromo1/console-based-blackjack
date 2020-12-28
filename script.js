@@ -51,28 +51,34 @@ const startGame = function (bet) {
   userHand.push(sixDeck.pop());
   dealerHand.push(sixDeck.pop());
 
+  userHandValue = calculateHandValue(userHand);
   console.log(
-    `User cards: ${userHand[0].value} of ${userHand[0].suit} and ${
-      userHand[1].value
-    } of ${userHand[1].suit}\nUser hand value: ${calculateHandValue(userHand)}`
-  );
-  console.log(
-    `Dealer cards: ${dealerHand[0].value} of ${dealerHand[0].suit} and ${
-      dealerHand[1].value
-    } of ${dealerHand[1].suit}\nDealer hand value: ${calculateHandValue(
-      dealerHand
-    )}`
+    `User cards: ${userHand[0].value} of ${userHand[0].suit} and ${userHand[1].value} of ${userHand[1].suit}\nUser hand value: ${userHandValue}`
   );
 
-  // TODO calculate user and dealer scores and respond accordingly
+  dealerHandValue = calculateHandValue(dealerHand);
+  console.log(
+    `Dealer cards: ${dealerHand[0].value} of ${dealerHand[0].suit} and ${dealerHand[1].value} of ${dealerHand[1].suit}\nDealer hand value: ${dealerHandValue}`
+  );
 
   // TODO user game options hit/hold
 
   return -bet;
 };
 
-// TODO take into account hard/soft hands when a hand is a bust and contains aces
 const calculateHandValue = function (hand) {
+  // Move aces to the end of the array to properly handle soft/hard hands
+  const compareCards = function (card1, card2) {
+    if (card1.value === 'Ace') {
+      return 1;
+    } else if (card2.value === 'Ace') {
+      return -1;
+    } else {
+      return 0;
+    }
+  };
+  hand.sort(compareCards);
+
   let handValue = 0;
   for (let i = 0; i < hand.length; i++) {
     const cardValue = hand[i].value;
