@@ -51,19 +51,105 @@ const startGame = function (bet) {
   userHand.push(sixDeck.pop());
   dealerHand.push(sixDeck.pop());
 
+  const USERS_TURN_MSG = '*'.repeat(12) + ' Your turn ' + '*'.repeat(12);
+  const DEALERS_TURN_MSG = '*'.repeat(10) + " Dealer's turn " + '*'.repeat(10);
+  const BLACKJACK_MSG = 'Blackjack!';
+  const PUSH_MSG = 'Push!';
+  const LINE_SEPERATOR = '*'.repeat(35);
+
+  const BLACKJACK_WINNINGS = bet * 1.5;
+
+  console.log(USERS_TURN_MSG);
   userHandValue = calculateHandValue(userHand);
   console.log(
-    `User cards: ${userHand[0].value} of ${userHand[0].suit} and ${userHand[1].value} of ${userHand[1].suit}\nUser hand value: ${userHandValue}`
+    `Your cards: ${userHand[0].value} of ${userHand[0].suit} and ${userHand[1].value} of ${userHand[1].suit}\nYour hand value: ${userHandValue}`
   );
 
   dealerHandValue = calculateHandValue(dealerHand);
+  // Only show the dealer's first card
+  const dealersFirstCardValue = calculateHandValue([dealerHand[0]]);
   console.log(
-    `Dealer cards: ${dealerHand[0].value} of ${dealerHand[0].suit} and ${dealerHand[1].value} of ${dealerHand[1].suit}\nDealer hand value: ${dealerHandValue}`
+    `Dealer card: ${dealerHand[0].value} of ${dealerHand[0].suit}\nDealer hand value: ${dealersFirstCardValue}`
   );
 
-  // TODO user game options hit/hold
+  const DEALER_STARTING_HAND_MSG = `Dealer card: ${dealerHand[0].value} of ${dealerHand[0].suit} and ${dealerHand[1].value} of ${dealerHand[1].suit}\nDealer hand value: ${dealerHandValue}`;
 
-  return -bet;
+  const winningsMsg = winnings => {
+    console.log(`You won ${usdNumberFormatter(winnings)}!`);
+  };
+
+  // User blackjack
+  if (userHandValue === 21) {
+    console.log(BLACKJACK_MSG);
+    console.log(DEALERS_TURN_MSG);
+    console.log(DEALER_STARTING_HAND_MSG);
+    if (dealerHandValue === 21) {
+      console.log(PUSH_MSG);
+      return bet;
+    } else {
+      winningsMsg(BLACKJACK_WINNINGS);
+      return BLACKJACK_WINNINGS;
+    }
+  }
+
+  // User's turn
+  let option;
+  do {
+    option = prompt(
+      `Dealer Score: ${dealersFirstCardValue}\nYour Score: ${userHandValue}\n1. Hit\n2. Hold`
+    );
+
+    if (option === '1') {
+      const drawnCard = sixDeck.pop();
+      userHand.push(drawnCard);
+      console.log(`You drew ${drawnCard.value} of ${drawnCard.suit}`);
+
+      userHandValue = calculateHandValue(userHand);
+      console.log(`Your Hand value: ${userHandValue}`);
+
+      if (userHandValue > 21) {
+        console.log('You bust!');
+        return 0;
+      } else if (userHandValue === 21) {
+        // Don't allow user to hit once at 21
+        break;
+      }
+    }
+  } while (option !== '2');
+
+  console.log(DEALERS_TURN_MSG);
+  console.log(DEALER_STARTING_HAND_MSG);
+
+  // Dealer's turn
+  while (dealerHandValue < 17) {
+    const drawnCard = sixDeck.pop();
+    dealerHand.push(drawnCard);
+    console.log(`Dealer drew ${drawnCard.value} of ${drawnCard.suit}`);
+
+    dealerHandValue = calculateHandValue(dealerHand);
+    console.log(`Dealer Hand value: ${dealerHandValue}`);
+
+    if (dealerHandValue > 21) {
+      console.log('Dealer bust!');
+      winningsMsg(bet * 2);
+      console.log(LINE_SEPERATOR);
+      return bet * 2;
+    }
+  }
+
+  if (userHandValue > dealerHandValue) {
+    winningsMsg(bet * 2);
+    console.log(LINE_SEPERATOR);
+    return bet * 2;
+  } else if (userHandValue < dealerHandValue) {
+    console.log(`You lost ${usdNumberFormatter(bet)}!`);
+    console.log(LINE_SEPERATOR);
+    return 0;
+  } else {
+    console.log(PUSH_MSG);
+    console.log(LINE_SEPERATOR);
+    return bet;
+  }
 };
 
 const calculateHandValue = function (hand) {
@@ -148,6 +234,7 @@ do {
         } else if (bet > funds) {
           alert("Bet can't exceed available funds!");
         } else {
+          funds -= bet;
           console.log(`You placed a ${usdNumberFormatter(bet)} bet.`);
           funds += startGame(bet);
           break;
