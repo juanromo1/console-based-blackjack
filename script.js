@@ -40,10 +40,10 @@ const shuffleDeck = function (deck) {
 };
 
 const startGame = function (bet) {
-  let userHandValue = 0;
   const userHand = [];
-  let dealerHandValue = 0;
+  let userHandValue = 0;
   const dealerHand = [];
+  let dealerHandValue = 0;
 
   // Deal cards
   userHand.push(sixDeck.pop());
@@ -72,7 +72,7 @@ const startGame = function (bet) {
     `Dealer card: ${dealerHand[0].value} of ${dealerHand[0].suit}\nDealer hand value: ${dealersFirstCardValue}`
   );
 
-  const DEALER_STARTING_HAND_MSG = `Dealer card: ${dealerHand[0].value} of ${dealerHand[0].suit} and ${dealerHand[1].value} of ${dealerHand[1].suit}\nDealer hand value: ${dealerHandValue}`;
+  const DEALER_STARTING_HAND_MSG = `Dealer cards: ${dealerHand[0].value} of ${dealerHand[0].suit} and ${dealerHand[1].value} of ${dealerHand[1].suit}\nDealer hand value: ${dealerHandValue}`;
 
   const winningsMsg = winnings => {
     console.log(`You won ${usdNumberFormatter(winnings)}!`);
@@ -85,9 +85,11 @@ const startGame = function (bet) {
     console.log(DEALER_STARTING_HAND_MSG);
     if (dealerHandValue === 21) {
       console.log(PUSH_MSG);
+      console.log(LINE_SEPERATOR);
       return bet;
     } else {
       winningsMsg(BLACKJACK_WINNINGS);
+      console.log(LINE_SEPERATOR);
       return BLACKJACK_WINNINGS;
     }
   }
@@ -105,7 +107,7 @@ const startGame = function (bet) {
       console.log(`You drew ${drawnCard.value} of ${drawnCard.suit}`);
 
       userHandValue = calculateHandValue(userHand);
-      console.log(`Your Hand value: ${userHandValue}`);
+      console.log(`Your hand value: ${userHandValue}`);
 
       if (userHandValue > 21) {
         console.log('You bust!');
@@ -127,7 +129,7 @@ const startGame = function (bet) {
     console.log(`Dealer drew ${drawnCard.value} of ${drawnCard.suit}`);
 
     dealerHandValue = calculateHandValue(dealerHand);
-    console.log(`Dealer Hand value: ${dealerHandValue}`);
+    console.log(`Dealer hand value: ${dealerHandValue}`);
 
     if (dealerHandValue > 21) {
       console.log('Dealer bust!');
